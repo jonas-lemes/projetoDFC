@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Projeto - Dinâmica dos Fluídos Computacional</title>
+        <meta charset="UTF-8" />
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
+        <link rel="stylesheet" href="css/css.css" />
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+
+        <script src="js/jquery.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $("#geraGrafico").click(function () {
+
+                    var u = new Array(1000);
+                    var f = new Array(1000);
+
+                    var deltaT = $("#inputDeltaT").val();
+                    var deltaX = $("#inputDeltaX").val();
+
+                    var lambda = 0.2 / 1;
+
+                    for (x = 0; x <= 500; x++) {
+                        u[x] = 1.0;
+                        f[x] = (u[x] * u[x]) / 2;
+                    }
+
+                    for (x = 501; x <= 1000; x++) {
+                        u[x] = 0;
+                        f[x] = (u[x] * u[x]) / 2;
+                    }
+
+                    for (t = 1; t <= 300; t++) {
+                        for (x = 1; x <= 999; x++) {
+                            // 1. CENTRADO
+                            u[x] = u[x] - (lambda / 2) * (f[x + 1] - f[x - 1]);
+                            f[x] = (u[x] * u[x]) / 2;
+                            //LAX
+                            //u[x] = u[x] - (lambda / 2) * (f[x] - f[x - 1]) + ((u[x + 1] - (2 * u[x]) + u[x - 1]) / 2);
+
+                            //UPWIND
+                            //u[x] = u[x] - (lambda * (f[x] - f[x - 1]));
+                        }
+                    }
+                    google.charts.load('current', {'packages': ['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+
+                    function drawChart() {
+                        var data = new google.visualization.DataTable();
+
+                        data.addColumn('number', 'x');
+                        data.addColumn('number', 'u');
+
+                        for (x = 1; x <= 999; x++) {
+                            data.addRow([x, u[x]]);
+                        }
+
+                        var options = {
+                            title: 'Método Centrado',
+                            curveType: 'function',
+                            backgroundColor: {fill: 'transparent'},
+                            legend: {position: 'bottom'}
+                        };
+
+                        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+                        chart.draw(data, options);
+                    }
+
+//
+//                       
+
+                });
+            });
+
+        </script>  
+
+    </head>
+    <body>
+        <header>
+            <div class="logoArea">
+                <span class="supTitle">
+                    Dinâmica dos Fluídos
+                </span>
+                <br />
+                <span class="subTitle">
+                    computacionais
+                </span>
+            </div>
+        </header>
+        <div class="gradientArea"></div>
+        <main>
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="inputDeltaT">Digite o valor de ΔT</label>
+                        <input type="text" class="form-control" id="inputDeltaT" placeholder="Ex: 300">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputDeltaX">Digite o valor de ΔX</label>
+                        <input type="text" class="form-control" id="inputDeltaX" placeholder="Ex: 1">
+                    </div>
+                </div>
+                <button id="geraGrafico" class="btn btn-dark" type="button">Gerar gráfico</button>
+            </form>
+            <hr />
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm" id="graficoLax">
+                        <div id="curve_chart" style="width: 100%; height: 500px;"></div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        <footer>
+
+        </footer>
+    </body>
+</html>

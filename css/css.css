@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'capable';
+    src: url('../fonts/capable_of_loving_personal_use-webfont.woff2') format('woff2'),
+        url('../fonts/capable_of_loving_personal_use-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'hacked';
+    src: url('../fonts/hacked_crt-webfont.woff2') format('woff2'),
+        url('../fonts/hacked_crt-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+html{
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    margin: 0px auto;
+    height: 100%;
+    background-image: url("../img/Liquid_Ink_V1_1050.jpg");
+    background-repeat: no-repeat;
+    background-origin: 100px;
+    background-size: 800px 600px;
+    background-position-x: right;
+    background-position-y: 100px;
+}
+
+header{
+    width:100%;
+    height:100px; 
+    margin:0 auto;
+    background-color: #000;
+}
+
+header div.logoArea{
+    margin:0 auto;
+    width: 1000px;
+    height: 100px;
+}
+
+header div.logoArea span.supTitle{
+    font-family: 'capable';
+    color: #FFF;
+    font-size: 41px;
+    float: left;
+}
+
+header div.logoArea span.subTitle{
+    font-family: 'hacked';
+    color: #00e516;
+    font-size: 35px;
+    margin-left: -244px;
+    float: left;
+    margin-top: 8px;
+}
+
+div.gradientArea{
+    height: 15px;
+    width: 100%;
+    margin: 0;
+    background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+}
+
+main{
+    margin:5px auto;
+    width:1000px;
+    min-height: 200px;
+}
+
+footer{
+    width:100%;
+    height: 15px;
+    background-color: #000;
+    bottom: 0;
+    position: fixed;
+}
