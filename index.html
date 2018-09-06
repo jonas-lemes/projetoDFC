@@ -9,15 +9,25 @@
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
 
         <script src="js/jquery.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/geraGrafico.js"></script>
 
         <script>
             $(document).ready(function () {
                 $("#geraGrafico").click(function () {
 
-                    var u = new Array(1000);
-                    var f = new Array(1000);
+                    var uInicial = new Array(1000);
+                    var fInicial = new Array(1000);
+
+                    var uCentrado = new Array(1000);
+                    var fCentrado = new Array(1000);
+
+                    var uLax = new Array(1000);
+                    var fLax = new Array(1000);
+
+                    var uUpwind = new Array(1000);
+                    var fUpwind = new Array(1000);
 
                     var deltaT = $("#inputDeltaT").val();
                     var deltaX = $("#inputDeltaX").val();
@@ -25,54 +35,44 @@
                     var lambda = 0.2 / 1;
 
                     for (x = 0; x <= 500; x++) {
-                        u[x] = 1.0;
-                        f[x] = (u[x] * u[x]) / 2;
+                        uInicial[x] = 1.0;
+                        fInicial[x] = (uInicial[x] * uInicial[x]) / 2;
                     }
 
                     for (x = 501; x <= 1000; x++) {
-                        u[x] = 0;
-                        f[x] = (u[x] * u[x]) / 2;
+                        uInicial[x] = 0;
+                        fInicial[x] = (uInicial[x] * uInicial[x]) / 2;
                     }
+
+                    uCentrado = uInicial.slice();
+                    fCentrado = fInicial.slice();
+
+                    uLax = uInicial.slice();
+                    fLax = fInicial.slice();
+
+                    uUpwind = uInicial.slice();
+                    fUpwind = fInicial.slice();
+
 
                     for (t = 1; t <= 300; t++) {
                         for (x = 1; x <= 999; x++) {
                             // 1. CENTRADO
-                            u[x] = u[x] - (lambda / 2) * (f[x + 1] - f[x - 1]);
-                            f[x] = (u[x] * u[x]) / 2;
+                            uCentrado[x] = uCentrado[x] - (lambda / 2) * (fCentrado[x + 1] - fCentrado[x - 1]);
+                            fCentrado[x] = (uCentrado[x] * uCentrado[x]) / 2;
+
                             //LAX
-                            //u[x] = u[x] - (lambda / 2) * (f[x] - f[x - 1]) + ((u[x + 1] - (2 * u[x]) + u[x - 1]) / 2);
+                            uLax[x] = uLax[x] - (lambda / 2) * (fLax[x] - fLax[x - 1]) + ((uLax[x + 1] - (2 * uLax[x]) + uLax[x - 1]) / 2);
+                            fLax[x] = (uLax[x] * uLax[x]) / 2;
 
                             //UPWIND
-                            //u[x] = u[x] - (lambda * (f[x] - f[x - 1]));
+                            uUpwind[x] = uUpwind[x] - (lambda * (fUpwind[x] - fUpwind[x - 1]));
+                            fUpwind[x] = (uUpwind[x] * uUpwind[x]) / 2;
                         }
                     }
-                    google.charts.load('current', {'packages': ['corechart']});
-                    google.charts.setOnLoadCallback(drawChart);
 
-                    function drawChart() {
-                        var data = new google.visualization.DataTable();
-
-                        data.addColumn('number', 'x');
-                        data.addColumn('number', 'u');
-
-                        for (x = 1; x <= 999; x++) {
-                            data.addRow([x, u[x]]);
-                        }
-
-                        var options = {
-                            title: 'Método Centrado',
-                            curveType: 'function',
-                            backgroundColor: {fill: 'transparent'},
-                            legend: {position: 'bottom'}
-                        };
-
-                        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-                        chart.draw(data, options);
-                    }
-
-//
-//                       
+                    geraGrafico('centrado', uCentrado);
+                    geraGrafico('lax', uLax);
+                    geraGrafico('upwind', uUpwind);
 
                 });
             });
@@ -94,27 +94,66 @@
         </header>
         <div class="gradientArea"></div>
         <main>
-            <form>
-                <div class="form-row">
-                    <div class="form-group col-md-2">
-                        <label for="inputDeltaT">Digite o valor de ΔT</label>
-                        <input type="text" class="form-control" id="inputDeltaT" placeholder="Ex: 300">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="inputDeltaX">Digite o valor de ΔX</label>
-                        <input type="text" class="form-control" id="inputDeltaX" placeholder="Ex: 1">
-                    </div>
-                </div>
-                <button id="geraGrafico" class="btn btn-dark" type="button">Gerar gráfico</button>
-            </form>
-            <hr />
             <div class="container">
                 <div class="row">
-                    <div class="col-sm" id="graficoLax">
-                        <div id="curve_chart" style="width: 100%; height: 500px;"></div>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label for="inputDeltaT">Digite o valor de ΔT</label>
+                                <input type="text" class="form-control" id="inputDeltaT" placeholder="Ex: 300">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputDeltaX">Digite o valor de ΔX</label>
+                                <input type="text" class="form-control" id="inputDeltaX" placeholder="Ex: 1">
+                            </div>
+                        </div>
+                        <button id="geraGrafico" class="btn btn-dark" type="button">Gerar gráfico</button>
+                    </form>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+                        <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+                        <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+                        <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <h3>HOME</h3>
+
+                            <div class="row">
+                                <div class="col-sm" id="graficoCentrado">
+                                    <div id="centrado_chart" style="width: 100%; height: auto;"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm" id="graficoLax">
+                                    <div id="lax_chart" style="width: 100%; height: auto;"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm" id="graficoUpwind">
+                                    <div id="upwind_chart" style="width: 100%; height: auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="menu1" class="tab-pane fade">
+                            <h3>Menu 1</h3>
+                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                        <div id="menu2" class="tab-pane fade">
+                            <h3>Menu 2</h3>
+                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                        </div>
+                        <div id="menu3" class="tab-pane fade">
+                            <h3>Menu 3</h3>
+                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </main>
         <footer>
