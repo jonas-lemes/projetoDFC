@@ -1,4 +1,4 @@
-function geraGrafico(nome, dados) {
+function geraGraficoLCU(nome, dados) {
     google.charts.load('current', {'packages': ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
@@ -16,7 +16,8 @@ function geraGrafico(nome, dados) {
             title: 'Método ' + nome,
             curveType: 'function',
             backgroundColor: {fill: 'transparent'},
-            legend: {position: 'bottom'}
+            legend: {position: 'bottom'},
+            height: 500
         };
         var chart = new google.visualization.LineChart(document.getElementById(nome + '_chart'));
         chart.draw(data, options);

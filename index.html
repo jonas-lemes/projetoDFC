@@ -11,69 +11,17 @@
         <script src="js/jquery.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="js/geraGrafico.js"></script>
+        <script src="js/projeto1LCU/geraGraficoLCU.js"></script>
+        <script src="js/projeto1LCU/calculoLCU.js"></script>
+        <script src="js/projeto2/calculo.js"></script>
 
         <script>
             $(document).ready(function () {
-                $("#geraGrafico").click(function () {
-
-                    var uInicial = new Array(1000);
-                    var fInicial = new Array(1000);
-
-                    var uCentrado = new Array(1000);
-                    var fCentrado = new Array(1000);
-
-                    var uLax = new Array(1000);
-                    var fLax = new Array(1000);
-
-                    var uUpwind = new Array(1000);
-                    var fUpwind = new Array(1000);
-
-                    var deltaT = $("#inputDeltaT").val();
-                    var deltaX = $("#inputDeltaX").val();
-
-                    var lambda = 0.2 / 1;
-
-                    for (x = 0; x <= 500; x++) {
-                        uInicial[x] = 1.0;
-                        fInicial[x] = (uInicial[x] * uInicial[x]) / 2;
-                    }
-
-                    for (x = 501; x <= 1000; x++) {
-                        uInicial[x] = 0;
-                        fInicial[x] = (uInicial[x] * uInicial[x]) / 2;
-                    }
-
-                    uCentrado = uInicial.slice();
-                    fCentrado = fInicial.slice();
-
-                    uLax = uInicial.slice();
-                    fLax = fInicial.slice();
-
-                    uUpwind = uInicial.slice();
-                    fUpwind = fInicial.slice();
-
-
-                    for (t = 1; t <= 300; t++) {
-                        for (x = 1; x <= 999; x++) {
-                            // 1. CENTRADO
-                            uCentrado[x] = uCentrado[x] - (lambda / 2) * (fCentrado[x + 1] - fCentrado[x - 1]);
-                            fCentrado[x] = (uCentrado[x] * uCentrado[x]) / 2;
-
-                            //LAX
-                            uLax[x] = uLax[x] - (lambda / 2) * (fLax[x] - fLax[x - 1]) + ((uLax[x + 1] - (2 * uLax[x]) + uLax[x - 1]) / 2);
-                            fLax[x] = (uLax[x] * uLax[x]) / 2;
-
-                            //UPWIND
-                            uUpwind[x] = uUpwind[x] - (lambda * (fUpwind[x] - fUpwind[x - 1]));
-                            fUpwind[x] = (uUpwind[x] * uUpwind[x]) / 2;
-                        }
-                    }
-
-                    geraGrafico('centrado', uCentrado);
-                    geraGrafico('lax', uLax);
-                    geraGrafico('upwind', uUpwind);
-
+                $("#graficoLCU").click(function () {
+                    calculoLCU();
+                });
+                $("#graficoProjeto2").click(function () {
+                    calculo();
                 });
             });
 
@@ -95,34 +43,27 @@
         <div class="gradientArea"></div>
         <main>
             <div class="container">
-                <div class="row">
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-2">
-                                <label for="inputDeltaT">Digite o valor de ΔT</label>
-                                <input type="text" class="form-control" id="inputDeltaT" placeholder="Ex: 300">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="inputDeltaX">Digite o valor de ΔX</label>
-                                <input type="text" class="form-control" id="inputDeltaX" placeholder="Ex: 1">
-                            </div>
-                        </div>
-                        <button id="geraGrafico" class="btn btn-dark" type="button">Gerar gráfico</button>
-                    </form>
-                </div>
-                <hr />
 
                 <div class="row">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-                        <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-                        <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-                        <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+                        <li class="active"><a data-toggle="tab" href="#projeto1">Projeto 1</a></li>
+                        <li><a data-toggle="tab" href="#projeto2">Projeto 2</a></li>
+                        <li><a data-toggle="tab" href="#projeto3">Projeto 3</a></li>
                     </ul>
 
                     <div class="tab-content">
-                        <div id="home" class="tab-pane fade in active">
-                            <h3>HOME</h3>
+                        <div id="projeto1" class="tab-pane fade in active">
+                            <h3>Projeto 1</h3>
+
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="inputDeltaT" placeholder="Digite o valor de ΔT">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="inputDeltaX" placeholder="Digite o valor de ΔX">
+                                </div>
+                                <button id="graficoLCU" class="btn btn-dark" type="button">Gerar gráfico</button>
+                            </form>
 
                             <div class="row">
                                 <div class="col-sm" id="graficoCentrado">
@@ -140,17 +81,31 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="menu1" class="tab-pane fade">
-                            <h3>Menu 1</h3>
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <div id="projeto2" class="tab-pane fade">
+                            <h3>Projeto 2</h3>
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="inputDeltaT" placeholder="Digite o valor de gama">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="inputDeltaX" placeholder="Digite o valor de lambda">
+                                </div>
+                                
+                                 <div class="form-group">
+                                    <input type="number" class="form-control" id="inputDeltaX" placeholder="Digite a razão da pressão">
+                                </div>
+                                <button id="graficoProjeto2" class="btn btn-dark" type="button">Gerar gráfico</button>
+                            </form>
+                            
+                             <div class="row">
+                                <div class="col-sm" id="graficoProjeto2">
+                                    <div id="upwind_chart" style="width: 100%; height: auto;"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div id="menu2" class="tab-pane fade">
-                            <h3>Menu 2</h3>
+                        <div id="projeto3" class="tab-pane fade">
+                            <h3>Projeto 3</h3>
                             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                        </div>
-                        <div id="menu3" class="tab-pane fade">
-                            <h3>Menu 3</h3>
-                            <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
                         </div>
                     </div>
                 </div>

@@ -87,3 +87,15 @@ footer{
     background-color: #343a40;
     border-color: #343a40;
 }
+
+button.btn-dark:hover {
+    color: #fff !important;
+}
+
+button.btn-dark:active {
+    color: #fff !important;
+}
+
+.row{
+    margin-right: 0px !important;
+}
