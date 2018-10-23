@@ -1,6 +1,10 @@
 function calculoTuboChoqueLax() {
-    var gama = 1.4; //gama
-    var lambda = 0.2; //lambda converter para Dt/Dx
+    var gama = trocaVirgula($("#inputGamaL").val());
+    var deltaT = trocaVirgula($("#inputDeltaTL").val());
+    var deltaX = trocaVirgula($("#inputDeltaXL").val());
+    
+    var lambda = deltaT/deltaX;
+    
 	
 	//necessidade do numero de interações
 
@@ -12,7 +16,9 @@ function calculoTuboChoqueLax() {
 	var ro = new Array(1000);
 
 
-    var p4 = 5; //5 , 10 ou 20 -- raz�o de press�o
+    var p4 = $("#inputPressaoL").val();
+
+    alert(p4);
 
     var ro4 = p4 / (gama - 1);
     var e4 = p4;

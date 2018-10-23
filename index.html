@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
 
         <script src="js/jquery.js"></script>
+        <script src="js/utils.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <script src="js/projeto1LCU/geraGraficoLCU.js"></script>
@@ -59,18 +60,23 @@
 
                     <div class="tab-content">
                         <div id="projeto1" class="tab-pane fade in active">
-                            <h3>Projeto 1</h3>
+                            <h3>Projeto 1 LCU</h3>
 
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="inputDeltaT" placeholder="Digite o valor de ΔT">
+                                    Digite o valor de  ΔT<br/>
+                                    <input type="text" class="form-control" id="inputDeltaT" placeholder="ΔT">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="inputDeltaX" placeholder="Digite o valor de ΔX">
+                                        Digite o valor de ΔX<br/>
+                                    <input type="text" class="form-control" id="inputDeltaX" placeholder="ΔX">
                                 </div>
 								  <div class="form-group">
-                                    <input type="text" class="form-control" id="inputTempo" placeholder="Digite o tempo(em segundos)">
+                                        Digite o tempo(em segundos)<br/>
+                                    <input type="text" class="form-control" id="inputTempo" placeholder="segundos">
                                 </div>
+                                <br/>
+                                <br/>
                                 <button id="graficoLCU" class="btn btn-dark" type="button">Gerar gráfico</button>
                             </form>
 
@@ -91,18 +97,27 @@
                             </div>
                         </div>
                         <div id="projeto2" class="tab-pane fade">
-                            <h3>Projeto 2</h3>
+                            <h3>Projeto 2 Tubo de choque UpWind</h3>
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="inputDeltaT" placeholder="Digite o valor de gama">
+                                        Digite o valor de gama<br/>
+                                    <input type="text" class="form-control" id="inputGamaU" placeholder="Digite o valor de gama">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="inputDeltaX" placeholder="Digite o valor de lambda">
-                                </div>
+                                        Digite o valor de  ΔT<br/>
+                                        <input type="text" class="form-control" id="inputDeltaTU" placeholder="ΔT">
+                                    </div>
+                                    <div class="form-group">
+                                            Digite o valor de ΔX<br/>
+                                        <input type="text" class="form-control" id="inputDeltaXU" placeholder="ΔX">
+                                    </div>
                                 
                                  <div class="form-group">
-                                    <input type="number" class="form-control" id="inputDeltaX" placeholder="Digite a razão da pressão">
+                                        Digite a razão da pressão<br/>
+                                    <input type="number" class="form-control" id="inputPressaoU" placeholder="a pressão">
                                 </div>
+                                <br/>
+                                <br/>
                                 <button id="geraGraficoTuboChoqueUpwind" class="btn btn-dark" type="button">Gerar gráfico</button>
                             </form>
                             
@@ -113,18 +128,27 @@
                             </div>
                         </div>
                         <div id="projeto3" class="tab-pane fade">
-                          <h3>Projeto 3</h3>
-                            <form class="form-inline">
+                          <h3>Projeto 3 Tubo de choque Lax</h3>
+                          <form class="form-inline">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="inputDeltaT" placeholder="Digite o valor de gama">
+                                        Digite o valor de gama<br/>
+                                    <input type="text" class="form-control" id="inputGamaL" placeholder="Digite o valor de gama">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="inputDeltaX" placeholder="Digite o valor de lambda">
-                                </div>
+                                        Digite o valor de  ΔT<br/>
+                                        <input type="text" class="form-control" id="inputDeltaTL" placeholder="ΔT">
+                                    </div>
+                                    <div class="form-group">
+                                            Digite o valor de ΔX<br/>
+                                        <input type="text" class="form-control" id="inputDeltaXL" placeholder="ΔX">
+                                    </div>
                                 
                                  <div class="form-group">
-                                    <input type="number" class="form-control" id="inputDeltaX" placeholder="Digite a razão da pressão">
+                                        Digite a razão da pressão<br/>
+                                    <input type="number" class="form-control" id="inputPressaoL" placeholder="a pressão">
                                 </div>
+                                <br/>
+                                <br/>
                                 <button id="geraGraficoTuboChoqueLax" class="btn btn-dark" type="button">Gerar gráfico</button>
                             </form>
                             
