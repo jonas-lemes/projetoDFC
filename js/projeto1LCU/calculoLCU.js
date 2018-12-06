@@ -11,11 +11,13 @@ function calculoLCU() {
     var uUpwind = new Array(1000);
     var fUpwind = new Array(1000);
 
-    var deltaT = $("#inputDeltaT").val();
-    var deltaX = $("#inputDeltaX").val();
+    var deltaT = trocaVirgula($("#inputDeltaT").val());
+    var deltaX = trocaVirgula($("#inputDeltaX").val());
+    var tempo = $("#inputTempo").val();
 
-    var lambda = 0.2 / 1;
+    var lambda = deltaT/deltaX;
 
+    /*condições iniciais*/
     for (x = 0; x <= 500; x++) {
         uInicial[x] = 1.0;
         fInicial[x] = (uInicial[x] * uInicial[x]) / 2;
@@ -25,6 +27,7 @@ function calculoLCU() {
         uInicial[x] = 0;
         fInicial[x] = (uInicial[x] * uInicial[x]) / 2;
     }
+    /*fim condições inicial*/
 
     uCentrado = uInicial.slice();
     fCentrado = fInicial.slice();
@@ -36,7 +39,7 @@ function calculoLCU() {
     fUpwind = fInicial.slice();
 
 
-    for (t = 1; t <= 300; t++) {
+    for (t = 1; t <= tempo; t++) {
         for (x = 1; x <= 999; x++) {
             // 1. CENTRADO
             uCentrado[x] = uCentrado[x] - (lambda / 2) * (fCentrado[x + 1] - fCentrado[x - 1]);

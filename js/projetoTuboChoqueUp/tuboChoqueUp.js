@@ -1,8 +1,10 @@
 function calculoTuboChoqueUp() {
-    var gama = 1.4; //gama
-    var lambda = 0.2; //lambda converter para Dt/Dx
-	
-	//necessidade do numero de interações
+
+    var gama = trocaVirgula($("#inputGamaU").val());
+    var deltaT = trocaVirgula($("#inputDeltaTU").val());
+    var deltaX = trocaVirgula($("#inputDeltaXU").val());
+    
+    var lambda = deltaT/deltaX;
 
    var q0 = new Array(1000);
 	var q1 = new Array(1000);
@@ -18,8 +20,8 @@ function calculoTuboChoqueUp() {
 
 
 
-    var p4 = 5; //5 , 10 ou 20 -- raz�o de press�o
-
+    var p4 = $("#inputPressaoU").val();
+    alert(p4);
     var ro4 = p4 / (gama - 1);
     var e4 = p4;
 
